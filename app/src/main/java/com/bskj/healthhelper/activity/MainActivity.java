@@ -1,7 +1,9 @@
-package com.bskj.healthhelper;
+package com.bskj.healthhelper.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.bskj.healthhelper.R;
 
 public class MainActivity extends AppCompatActivity {
 
