@@ -3,30 +3,18 @@ package com.bskj.healthhelper.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.bskj.healthhelper.R;
-import com.bskj.healthhelper.fragment.AddressFragment;
-import com.bskj.healthhelper.fragment.FrdFragment;
-import com.bskj.healthhelper.fragment.SettingFragment;
-import com.bskj.healthhelper.fragment.WeixinFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends FragmentActivity implements View.OnClickListener{
-
-    private ViewPager mViewPager;
-    private FragmentPagerAdapter mAdapter;
-    private List<Fragment> mFragments;
-
+public class MainActivity extends FragmentActivity implements OnClickListener
+{
     private LinearLayout mTabWeixin;
     private LinearLayout mTabFrd;
     private LinearLayout mTabAddress;
@@ -37,95 +25,128 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ImageButton mImgAddress;
     private ImageButton mImgSettings;
 
+    private Fragment mTab01;
+    private Fragment mTab02;
+    private Fragment mTab03;
+    private Fragment mTab04;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
         initView();
         initEvent();
-        setSelect(1);
+        setSelect(0);
     }
 
     private void initEvent()
     {
         mTabWeixin.setOnClickListener(this);
         mTabFrd.setOnClickListener(this);
-        mTabAddress.setOnClickListener(this);
+//        mTabAddress.setOnClickListener(this);
         mTabSettings.setOnClickListener(this);
     }
 
     private void initView()
     {
-        mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
-
         mTabWeixin = (LinearLayout) findViewById(R.id.id_tab_weixin);
         mTabFrd = (LinearLayout) findViewById(R.id.id_tab_frd);
-        mTabAddress = (LinearLayout) findViewById(R.id.id_tab_address);
+//        mTabAddress = (LinearLayout) findViewById(R.id.id_tab_address);
         mTabSettings = (LinearLayout) findViewById(R.id.id_tab_settings);
 
         mImgWeixin = (ImageButton) findViewById(R.id.id_tab_weixin_img);
         mImgFrd = (ImageButton) findViewById(R.id.id_tab_frd_img);
-        mImgAddress = (ImageButton) findViewById(R.id.id_tab_address_img);
+//        mImgAddress = (ImageButton) findViewById(R.id.id_tab_address_img);
         mImgSettings = (ImageButton) findViewById(R.id.id_tab_settings_img);
+    }
 
-        mFragments = new ArrayList<Fragment>();
-        Fragment mTab01 = new WeixinFragment();
-        Fragment mTab02 = new FrdFragment();
-        Fragment mTab03 = new AddressFragment();
-        Fragment mTab04 = new SettingFragment();
-        mFragments.add(mTab01);
-        mFragments.add(mTab02);
-        mFragments.add(mTab03);
-        mFragments.add(mTab04);
-
-        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
+    private void setSelect(int i)
+    {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        hideFragment(transaction);
+        // 把图片设置为亮的
+        // 设置内容区域
+        switch (i)
         {
+            case 0:
+                if (mTab01 == null)
+                {
+                    mTab01 = new WeixinFragment();
+                    transaction.add(R.id.id_content, mTab01);
+                } else
+                {
+                    transaction.show(mTab01);
+                }
+                mImgWeixin.setImageResource(R.mipmap.tab_weixin_pressed);
+                break;
+            case 1:
+                if (mTab02 == null)
+                {
+                    mTab02 = new FrdFragment();transaction.add(R.id.id_content, mTab02);
+                } else
+                {
+                    transaction.show(mTab02);
 
-            @Override
-            public int getCount()
-            {
-                return mFragments.size();
-            }
+                }
+                mImgFrd.setImageResource(R.mipmap.tab_find_frd_pressed);
+                break;
+//            case 2:
+//                if (mTab03 == null)
+//                {
+//                    mTab03 = new AddressFragment();
+//                    transaction.add(R.id.id_content, mTab03);
+//                } else
+//                {
+//                    transaction.show(mTab03);
+//                }
+//                mImgAddress.setImageResource(R.mipmap.tab_address_pressed);
+//                break;
+            case 3:
+                if (mTab04 == null)
+                {
+                    mTab04 = new SettingFragment();
+                    transaction.add(R.id.id_content, mTab04);
+                } else
+                {
+                    transaction.show(mTab04);
+                }
+                mImgSettings.setImageResource(R.mipmap.tab_settings_pressed);
+                break;
 
-            @Override
-            public Fragment getItem(int arg0)
-            {
-                return mFragments.get(arg0);
-            }
-        };
-        mViewPager.setAdapter(mAdapter);
+            default:
+                break;
+        }
 
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener()
+        transaction.commit();
+    }
+
+    private void hideFragment(FragmentTransaction transaction)
+    {
+        if (mTab01 != null)
         {
-
-            @Override
-            public void onPageSelected(int arg0)
-            {
-                int currentItem = mViewPager.getCurrentItem();
-                setTab(currentItem);
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2)
-            {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0)
-            {
-                // TODO Auto-generated method stub
-
-            }
-        });
+            transaction.hide(mTab01);
+        }
+        if (mTab02 != null)
+        {
+            transaction.hide(mTab02);
+        }
+//        if (mTab03 != null)
+//        {
+//            transaction.hide(mTab03);
+//        }
+        if (mTab04 != null)
+        {
+            transaction.hide(mTab04);
+        }
     }
 
     @Override
     public void onClick(View v)
     {
+        resetImgs();
         switch (v.getId())
         {
             case R.id.id_tab_weixin:
@@ -134,42 +155,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.id_tab_frd:
                 setSelect(1);
                 break;
-            case R.id.id_tab_address:
-                setSelect(2);
-                break;
+//            case R.id.id_tab_address:
+//                setSelect(2);
+//                break;
             case R.id.id_tab_settings:
                 setSelect(3);
                 break;
 
             default:
-                break;
-        }
-    }
-
-    private void setSelect(int i)
-    {
-        setTab(i);
-        mViewPager.setCurrentItem(i);
-    }
-
-    private void setTab(int i)
-    {
-        resetImgs();
-        // 设置图片为亮色
-        // 切换内容区域
-        switch (i)
-        {
-            case 0:
-                mImgWeixin.setImageResource(R.mipmap.tab_weixin_pressed);
-                break;
-            case 1:
-                mImgFrd.setImageResource(R.mipmap.tab_find_frd_pressed);
-                break;
-            case 2:
-                mImgAddress.setImageResource(R.mipmap.tab_address_pressed);
-                break;
-            case 3:
-                mImgSettings.setImageResource(R.mipmap.tab_settings_pressed);
                 break;
         }
     }
@@ -181,7 +174,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     {
         mImgWeixin.setImageResource(R.mipmap.tab_weixin_normal);
         mImgFrd.setImageResource(R.mipmap.tab_find_frd_normal);
-        mImgAddress.setImageResource(R.mipmap.tab_address_normal);
+//        mImgAddress.setImageResource(R.mipmap.tab_address_normal);
         mImgSettings.setImageResource(R.mipmap.tab_settings_normal);
     }
+
 }

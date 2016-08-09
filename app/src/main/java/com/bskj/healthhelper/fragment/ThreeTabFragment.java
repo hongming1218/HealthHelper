@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 
 import com.bskj.healthhelper.R;
 
-public class FrdFragment extends Fragment
+public class ThreeTabFragment extends Fragment
 {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.tab02, container, false);
+		return inflater.inflate(R.layout.tab03, container, false);
 	}
 }

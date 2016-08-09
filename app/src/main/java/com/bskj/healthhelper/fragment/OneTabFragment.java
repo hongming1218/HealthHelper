@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.bskj.healthhelper.R;
 
-public class WeixinFragment extends Fragment
+public class OneTabFragment extends Fragment
 {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

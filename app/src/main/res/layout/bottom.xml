@@ -51,7 +51,7 @@
             android:textColor="#ffffff" />
     </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/id_tab_address"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:text="通讯录"
             android:textColor="#ffffff" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/id_tab_settings"

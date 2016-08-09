@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +6,12 @@
 
     <include layout="@layout/top" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/id_viewpager"
+    <FrameLayout
+        android:id="@+id/id_content"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
-    </android.support.v4.view.ViewPager>
+        android:layout_weight="1"
+        ></FrameLayout>
 
     <include layout="@layout/bottom" />
 
